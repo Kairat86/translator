@@ -2,7 +2,7 @@
 
 This utility allows you to translate Flutter strings into any Google Translate API supported language.
 
-##Setup
+## Setup
 You must set up a project on GCP, enable translate API and get your key.json. 
 See [Google Codelab](https://codelabs.developers.google.com/codelabs/cloud-translation-python3#0)
 
