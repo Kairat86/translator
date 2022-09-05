@@ -14,5 +14,6 @@ This script translates data in input.txt and puts it in output.txt. Input data f
 "flutter": "Flutter is wonderful" //no comma in the end of the last line
 ```
 
+
 ##translate_and_append_from_input.py
 This script translates data in input.txt and appends it to app_*.arb files.
