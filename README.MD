@@ -15,5 +15,5 @@ This script translates data in input.txt and puts it in output.txt. Input data f
 ```
 
 
-##translate_and_append_from_input.py
+## translate_and_append_from_input.py
 This script translates data in input.txt and appends it to app_*.arb files.
