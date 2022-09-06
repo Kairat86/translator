@@ -28,7 +28,7 @@ def translate_text_from_input(target):
     """
     Translates data int dat/input.txt file
     :param target: Language to translate into
-    :return: A tuple of translated text and array of strings from dat/input.txt
+    :return: A translated text object
     """
     content = [re.split(': *', e)[1][1:-1] for e in arr]
     return client.translate_text(contents=content,
@@ -40,7 +40,6 @@ def write_to_output(translations, capitalize):
     """
     Writes translations to dat/output.txt file
     :param translations: Array of translation objects
-    :param array: Array of strings from dat/input.txt
     :param capitalize: Set True if you want to capitalize each word of translated string
     """
     out = open('dat/output.txt', mode='w')
@@ -67,7 +66,6 @@ def append_to_arb_file(translations, path, capitalize):
     """
     Appends translations to each of app_*.arb file of a Flutter project.
     :param translations: Array of translation objects
-    :param array: Array of strings from dat/input.txt
     :param path: A path of a file to append to.
     :param capitalize: Set True if you want to capitalize each word of translated string
     """

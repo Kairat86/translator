@@ -1,3 +1,1 @@
-"sign_in_err":"Could not sign in, try again please",
-"test":"val"
-
+"subs_expired": "Your subscription is expired, buy again please"
