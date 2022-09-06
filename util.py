@@ -2,18 +2,26 @@ import html
 import os
 import re
 from os import environ
+from pathlib import Path
 
 from google.cloud import translate
 
-PATH_l10n = '/path/to/your/project/lib/translations folder'
+PATH_l10n = '/path/to/your/project/lib/translations folder/'
 
 environ.setdefault('GOOGLE_APPLICATION_CREDENTIALS', 'dat/key.json')
+
+
+def map_line(line):
+    print(line)
+    s = line.strip()
+    if s.endswith(','): return s[:len(s) - 1]
+    return s
+
 
 client = translate.TranslationServiceClient()
 project_id = 'your-project-id-from-gcp'
 parent = f"projects/{project_id}"
-data = open('dat/input.txt').read()
-arr = data.split(',\n')
+arr = list(filter(lambda l: l, map(map_line, Path('dat/input.txt').read_text().splitlines())))
 
 
 def translate_text_from_input(target):
@@ -23,12 +31,12 @@ def translate_text_from_input(target):
     :return: A tuple of translated text and array of strings from dat/input.txt
     """
     content = [re.split(': *', e)[1][1:-1] for e in arr]
-    return (client.translate_text(contents=content,
-                                  target_language_code=target,
-                                  source_language_code='en', parent=parent), arr)
+    return client.translate_text(contents=content,
+                                 target_language_code=target,
+                                 source_language_code='en', parent=parent)
 
 
-def write_to_output(translations, array, capitalize):
+def write_to_output(translations, capitalize):
     """
     Writes translations to dat/output.txt file
     :param translations: Array of translation objects
@@ -38,7 +46,7 @@ def write_to_output(translations, array, capitalize):
     out = open('dat/output.txt', mode='w')
     stop = len(translations)
     for i in range(stop):
-        line = array[i]
+        line = arr[i]
         k = re.split(': *', line)[0]
         translated_text = translations[i].translated_text
         if capitalize:
@@ -55,7 +63,7 @@ def write_to_output(translations, array, capitalize):
         out.write(k + ':"' + html.unescape(translated_text) + '"' + (',\n' if i < stop - 1 else ''))
 
 
-def append_to_arb_file(translations, array, path, capitalize):
+def append_to_arb_file(translations, path, capitalize):
     """
     Appends translations to each of app_*.arb file of a Flutter project.
     :param translations: Array of translation objects
@@ -75,7 +83,7 @@ def append_to_arb_file(translations, array, path, capitalize):
     out.write(',\n')
     stop = len(translations)
     for i in range(stop):
-        line = array[i]
+        line = arr[i]
         k = re.split(': *', line)[0]
         translated_text = translations[i].translated_text
         if capitalize:
@@ -89,4 +97,5 @@ def append_to_arb_file(translations, array, path, capitalize):
             else:
                 translated_text = translated_text.capitalize()
 
-        out.write(k + ':"' + html.unescape(translated_text) + '"' + (',\n' if i < stop - 1 else '\n}'))
+        text = html.unescape(translated_text)
+        out.write(k + ':"' + text + '"' + (',\n' if i < stop - 1 else '\n}'))

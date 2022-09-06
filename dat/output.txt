@@ -1,2 +1,2 @@
-"hello":"Сәлем Әлем!",
-"flutter":"Флутер керемет"
+"sign_in_err":"Nu m-am putut conecta, încercați din nou",
+"test":"val"
