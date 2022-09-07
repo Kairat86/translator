@@ -12,7 +12,6 @@ environ.setdefault('GOOGLE_APPLICATION_CREDENTIALS', 'dat/key.json')
 
 
 def map_line(line):
-    print(line)
     s = line.strip()
     if s.endswith(','): return s[:len(s) - 1]
     return s
@@ -47,7 +46,7 @@ def write_to_output(translations, capitalize):
     for i in range(stop):
         line = arr[i]
         k = re.split(': *', line)[0]
-        translated_text = translations[i].translated_text
+        translated_text = translations[i].translated_text.replace("&quot;", "'")
         if capitalize:
             if ' ' in translated_text:
                 str_arr = translated_text.split(' ')
